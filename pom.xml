@@ -29,7 +29,11 @@
 	</distributionManagement>
 
 	<properties>
-
+		<jgitflow.username />
+		<jgitflow.password />
+		<jgitflow.fetchRemote>false</jgitflow.fetchRemote>
+		<jgitflow.pushRemote>false</jgitflow.pushRemote>
+		<gitflow.origin>https://github.com/alexanderkittelmann/jenkins-gitflow.git</gitflow.origin>
 	</properties>
 
 	<dependencies>
@@ -48,8 +52,8 @@
 				<artifactId>gitflow-maven-plugin</artifactId>
 				<version>1.11.0</version>
 				<configuration>
-					<fetchRemote>false</fetchRemote>
-					<pushRemote>false</pushRemote>
+					<fetchRemote>${jgitflow.fetchRemote}</fetchRemote>
+					<pushRemote>${jgitflow.pushRemote}</pushRemote>
 					<skipTestProject>false</skipTestProject>
 					<allowSnapshots>false</allowSnapshots>
 					<digitsOnlyDevVersion>true</digitsOnlyDevVersion>
@@ -58,8 +62,8 @@
 						<developmentBranch>develop</developmentBranch>
 						<featureBranchPrefix>feature/</featureBranchPrefix>
 						<releaseBranchPrefix>release/</releaseBranchPrefix>
-						<hotfixBranchPrefix>hotfix/</hotfixBranchPrefix>
-						<origin>config if interaction with remote</origin>
+						<hotfixBranchPrefix>hotfix/</hotfixBranchPrefix>				
+						<origin>${gitflow.origin}</origin>
 					</gitFlowConfig>
 				</configuration>
 			</plugin>
