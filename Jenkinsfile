@@ -58,12 +58,18 @@ pipeline {
                   if ((env.BRANCH_NAME =~ '.*release.*').matches()) {                    
                     configFileProvider([configFile(fileId: 'edd7831a-3a6e-440e-9f60-1ef03a166602', variable: 'MAVEN_SETTINGS')]) {
                     bat "git checkout $env.BRANCH_NAME"
-                    bat "mvn -s $MAVEN_SETTINGS -Djgitflow.pushRemote=true gitflow:release-finish"
                     bat "mvn -s $MAVEN_SETTINGS -B deploy"
+                    bat "mvn -s $MAVEN_SETTINGS -Djgitflow.pushRemote=true gitflow:release-finish"
                     }
                   }  
                }
             }
+        }       
+        
+   }
+   post {
+        always {
+            cleanWs() /* clean up our workspace */
         }
    }
  }
