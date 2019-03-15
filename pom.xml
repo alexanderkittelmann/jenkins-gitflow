@@ -13,31 +13,27 @@
 
 	<groupId>de.gedoplan.seminar</groupId>
 	<artifactId>CI_DEMO</artifactId>
-	<version>1.0.0-SNAPSHOT</version>
+	<version>1.0.0</version>
 
 	<distributionManagement>
 		<repository>
-			<id>releases</id>
+			<id>localNexus</id>
 			<name>Releases</name>
-			<url>http://your.release.artifacts.repository.url</url>
+			<url>http://192.168.178.48:8081/repository/maven-releases/</url>
 		</repository>
 		<snapshotRepository>
-			<id>snapshots</id>
+			<id>localNexus</id>
 			<name>Snapshots</name>
-			<url>http://your.snapshot.artifacts.repository.url</url>
+			<url>http://192.168.178.48:8081/repository/maven-snapshots/</url>
 		</snapshotRepository>
 	</distributionManagement>
 
 	<properties>
-
-		<!-- Code-Check-Konfiguration. Dies sind die Werte aus den Parent-Projekten. 
-			Sie können hier zum Ausprobieren anders gesetzt werden. -->
-		<!-- <code.check.config>GEDOPLAN</code.check.config> <checkstyle.config>${code.check.config}</checkstyle.config> 
-			<checkstyle.disabled>false</checkstyle.disabled> <checkstyle.config.location>checkstyle_${checkstyle.config}.xml</checkstyle.config.location> 
-			<findbugs.config>${code.check.config}</findbugs.config> <findbugs.disabled>false</findbugs.disabled> 
-			<findbugs.config.location>findbugs_${findbugs.config}.xml</findbugs.config.location> 
-			<jacoco.version>0.7.6.201602180812</jacoco.version> -->
-
+		<jgitflow.username />
+		<jgitflow.password />
+		<jgitflow.fetchRemote>false</jgitflow.fetchRemote>
+		<jgitflow.pushRemote>false</jgitflow.pushRemote>
+		<gitflow.origin>git@github.com:alexanderkittelmann/jenkins-gitflow.git</gitflow.origin>
 	</properties>
 
 	<dependencies>
@@ -52,20 +48,25 @@
 	<build>
 		<plugins>
 			<plugin>
-				<groupId>external.atlassian.jgitflow</groupId>
-				<artifactId>jgitflow-maven-plugin</artifactId>
-				<version>1.0-m5.1</version>
-				<configuration>
-					<pushFeatures>true</pushFeatures>
-					<pushHotfixes>true</pushHotfixes>
-					<pushReleases>true</pushReleases>
-					<flowInitContext>
-						<masterBranchName>master</masterBranchName>
-						<developBranchName>develop</developBranchName>
+				<groupId>com.amashchenko.maven.plugin</groupId>
+				<artifactId>gitflow-maven-plugin</artifactId>
+				<version>1.11.0</version>
+				<configuration>				
+				<verbose>false</verbose>
+					<fetchRemote>${jgitflow.fetchRemote}</fetchRemote>
+					<pushRemote>${jgitflow.pushRemote}</pushRemote>
+					<skipTestProject>false</skipTestProject>
+					<allowSnapshots>false</allowSnapshots>
+					<digitsOnlyDevVersion>true</digitsOnlyDevVersion>
+					<keepBranch>true</keepBranch>					
+					<gitFlowConfig>
+						<productionBranch>master</productionBranch>
+						<developmentBranch>develop</developmentBranch>
 						<featureBranchPrefix>feature/</featureBranchPrefix>
 						<releaseBranchPrefix>release/</releaseBranchPrefix>
-						<hotfixBranchPrefix>hotfix/</hotfixBranchPrefix>
-					</flowInitContext>
+						<hotfixBranchPrefix>hotfix/</hotfixBranchPrefix>				
+						<origin>${gitflow.origin}</origin>
+					</gitFlowConfig>
 				</configuration>
 			</plugin>
 		</plugins>
