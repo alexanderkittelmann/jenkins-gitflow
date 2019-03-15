@@ -6,9 +6,6 @@ pipeline {
     }
         
     parameters {
-        booleanParam(name: "DEPLOY",
-                description: "Deploy in Nexus.",
-                defaultValue: false);
         booleanParam(name: "RELEASE",
                 description: "Release Version.",
                 defaultValue: false)
@@ -42,7 +39,7 @@ pipeline {
         
         stage("Deploy") {          
             when {
-                expression { params.DEPLOY }
+                expression { env.BRANCH_NAME !=~ /release\/.+/ }
             }
             steps {
               configFileProvider([configFile(fileId: 'edd7831a-3a6e-440e-9f60-1ef03a166602', variable: 'MAVEN_SETTINGS')]) {
