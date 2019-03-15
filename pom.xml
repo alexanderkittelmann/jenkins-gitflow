@@ -29,7 +29,53 @@
 	</distributionManagement>
 
 	<properties>
+		<jgitflow.allowSnapshots>false</jgitflow.allowSnapshots>
+		<jgitflow.allowUntracked>false</jgitflow.allowUntracked>
+		<jgitflow.autoVersionSubmodules>true</jgitflow.autoVersionSubmodules>
+		<jgitflow.enableFeatureVersions>true</jgitflow.enableFeatureVersions>
+		<jgitflow.featureRebase>false</jgitflow.featureRebase>
+		<jgitflow.keepBranch>false</jgitflow.keepBranch>
+		<jgitflow.noDeploy>true</jgitflow.noDeploy>
+		<jgitflow.noFeatureBuild>false</jgitflow.noFeatureBuild>
+		<jgitflow.pushFeatures>false</jgitflow.pushFeatures>
+		<jgitflow.pushHotfixes>false</jgitflow.pushHotfixes>
+		<jgitflow.pushReleases>false</jgitflow.pushReleases>
+		<jgitflow.squash>false</jgitflow.squash>
+		<jgitflow.releaseBranchVersionSuffix>-RC</jgitflow.releaseBranchVersionSuffix>
+		<jgitflow.username />
+		<jgitflow.password />
 
+		<!-- Konfiguration des gitflow-Plugins -->
+		<!-- All -finish goals and gitflow:release have skipTestProject parameter 
+			which controls whether Maven test goal will be called before merging branches. 
+			The default value is false (i.e. the project will be tested before merging 
+			branches). -->
+		<gitflow.skipTestProject>false</gitflow.skipTestProject>
+
+		<!-- All release goals have allowSnapshots parameter which controls whether 
+			SNAPSHOT dependencies are allowed. The default value is false (i.e. build 
+			fails if there SNAPSHOT dependency in project). -->
+		<gitflow.allowSnapshots>false</gitflow.allowSnapshots>
+
+		<!-- The gitflow:release-finish and gitflow:release goals have digitsOnlyDevVersion 
+			parameter which will remove qualifiers from the next development version 
+			if set to true. For example, if the release version is 1.0.0-Final then development 
+			version will be 1.0.1-SNAPSHOT. The default value is false (i.e. qualifiers 
+			will be preserved in next development version). -->
+		<gitflow.digitsOnlyDevVersion>true</gitflow.digitsOnlyDevVersion>
+
+		<!-- Branch names / prefixes; use the same names for productionBranch and 
+			developmentBranch in order to use a branch model like GitHub Flow -->
+		<gitflow.productionBranch>master</gitflow.productionBranch>
+		<gitflow.developmentBranch>develop</gitflow.developmentBranch>
+		<gitflow.featureBranchPrefix>feature/</gitflow.featureBranchPrefix>
+		<gitflow.releaseBranchPrefix>release/</gitflow.releaseBranchPrefix>
+		<gitflow.hotfixBranchPrefix>hotfix/</gitflow.hotfixBranchPrefix>
+		<gitflow.supportBranchPrefix>support/</gitflow.supportBranchPrefix>
+		<gitflow.versionTagPrefix></gitflow.versionTagPrefix>
+
+		<!-- Name of upstream repo -->
+		<gitflow.origin>origin</gitflow.origin>
 		<!-- Code-Check-Konfiguration. Dies sind die Werte aus den Parent-Projekten. 
 			Sie können hier zum Ausprobieren anders gesetzt werden. -->
 		<!-- <code.check.config>GEDOPLAN</code.check.config> <checkstyle.config>${code.check.config}</checkstyle.config> 
@@ -52,20 +98,23 @@
 	<build>
 		<plugins>
 			<plugin>
-				<groupId>external.atlassian.jgitflow</groupId>
-				<artifactId>jgitflow-maven-plugin</artifactId>
-				<version>1.0-m5.1</version>
+				<groupId>com.amashchenko.maven.plugin</groupId>
+				<artifactId>gitflow-maven-plugin</artifactId>
+				<version>1.11.0</version>
 				<configuration>
-					<pushFeatures>true</pushFeatures>
-					<pushHotfixes>true</pushHotfixes>
-					<pushReleases>true</pushReleases>
-					<flowInitContext>
-						<masterBranchName>master</masterBranchName>
-						<developBranchName>develop</developBranchName>
-						<featureBranchPrefix>feature/</featureBranchPrefix>
-						<releaseBranchPrefix>release/</releaseBranchPrefix>
-						<hotfixBranchPrefix>hotfix/</hotfixBranchPrefix>
-					</flowInitContext>
+					<skipTestProject>${gitflow.skipTestProject}</skipTestProject>
+					<allowSnapshots>${gitflow.allowSnapshots}</allowSnapshots>
+					<digitsOnlyDevVersion>${gitflow.digitsOnlyDevVersion}</digitsOnlyDevVersion>
+					<gitFlowConfig>
+						<productionBranch>${gitflow.productionBranch}</productionBranch>
+						<developmentBranch>${gitflow.developmentBranch}</developmentBranch>
+						<featureBranchPrefix>${gitflow.featureBranchPrefix}</featureBranchPrefix>
+						<releaseBranchPrefix>${gitflow.releaseBranchPrefix}</releaseBranchPrefix>
+						<hotfixBranchPrefix>${gitflow.hotfixBranchPrefix}</hotfixBranchPrefix>
+						<supportBranchPrefix>${gitflow.supportBranchPrefix}</supportBranchPrefix>
+						<versionTagPrefix>${gitflow.versionTagPrefix}</versionTagPrefix>
+						<origin>${gitflow.origin}</origin>
+					</gitFlowConfig>
 				</configuration>
 			</plugin>
 		</plugins>
