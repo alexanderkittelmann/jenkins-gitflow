@@ -5,10 +5,6 @@ pipeline {
         jdk 'JAVA8'
     }
     
-    environment {
-        GITHUB     = credentials('56eee954-a690-492f-bf57-d333d1320db2')
-    }
-    
     parameters {
         booleanParam(name: "DEPLOY",
                 description: "Deploy in Nexus.",
@@ -55,8 +51,7 @@ pipeline {
             }
         }
         
-        stage("Release") {      
-          
+        stage("Release") {          
               steps {
                 script {
                   if (env.BRANCH_NAME ==~ /release\/.+/) {
