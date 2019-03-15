@@ -13,7 +13,7 @@
 
 	<groupId>de.gedoplan.seminar</groupId>
 	<artifactId>CI_DEMO</artifactId>
-	<version>1.0.0</version>
+	<version>1.0.1</version>
 
 	<distributionManagement>
 		<repository>
@@ -29,8 +29,6 @@
 	</distributionManagement>
 
 	<properties>
-		<jgitflow.username />
-		<jgitflow.password />
 		<jgitflow.fetchRemote>false</jgitflow.fetchRemote>
 		<jgitflow.pushRemote>false</jgitflow.pushRemote>
 		<gitflow.origin>git@github.com:alexanderkittelmann/jenkins-gitflow.git</gitflow.origin>
@@ -58,7 +56,7 @@
 					<skipTestProject>false</skipTestProject>
 					<allowSnapshots>false</allowSnapshots>
 					<digitsOnlyDevVersion>true</digitsOnlyDevVersion>
-					<keepBranch>true</keepBranch>					
+					<keepBranch>false</keepBranch>					
 					<gitFlowConfig>
 						<productionBranch>master</productionBranch>
 						<developmentBranch>develop</developmentBranch>
