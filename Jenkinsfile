@@ -5,6 +5,10 @@ pipeline {
         jdk 'JAVA8'
     }
     
+    environment {
+        GITHUB     = credentials('56eee954-a690-492f-bf57-d333d1320db2')
+    }
+    
     parameters {
         booleanParam(name: "DEPLOY",
                 description: "Deploy in Nexus.",
@@ -50,6 +54,7 @@ pipeline {
               }
             }
         }
+<<<<<<< .mine
         
         stage("Release") {          
               steps {
@@ -60,7 +65,20 @@ pipeline {
                     }
                     configFileProvider([configFile(fileId: 'edd7831a-3a6e-440e-9f60-1ef03a166602', variable: 'MAVEN_SETTINGS')]) {
                     bat "git checkout $env.BRANCH_NAME"
-                    bat "mvn -s $MAVEN_SETTINGS -B -Djgitflow.username=$GITHUB_USR -Djgitflow.password=$GITHUB_PSW -Djgitflow.fetchRemote=true -Djgitflow.pushRemote=true gitflow:release-finish"
+=======
+        
+        stage("Release") {      
+              when {
+                  expression { params.RELEASE }
+              }
+              steps {
+                script {
+                  if (env.BRANCH_NAME ==~ /release\/.+/) {                    
+                    configFileProvider([configFile(fileId: 'edd7831a-3a6e-440e-9f60-1ef03a166602', variable: 'MAVEN_SETTINGS')]) {
+                    bat "git checkout $env.BRANCH_NAME"
+>>>>>>> .theirs
+                    bat "mvn -s $MAVEN_SETTINGS -Djgitflow.pushRemote=true gitflow:release-finish"
+<<<<<<< .mine
                     bat "mvn -s $MAVEN_SETTINGS -B deploy"
                     }
                   }  
@@ -69,3 +87,13 @@ pipeline {
         }
    }
  }
+=======
+                    bat "mvn -s $MAVEN_SETTINGS -B deploy"
+                    }
+                  }  
+               }
+            }
+        }
+   }
+ }
+>>>>>>> .theirs
