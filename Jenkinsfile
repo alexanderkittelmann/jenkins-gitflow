@@ -6,9 +6,6 @@ pipeline {
     }
         
     parameters {
-        booleanParam(name: "DEPLOY",
-                description: "Deploy in Nexus.",
-                defaultValue: false);
         booleanParam(name: "RELEASE",
                 description: "Release Version.",
                 defaultValue: false)
@@ -40,15 +37,16 @@ pipeline {
                 }
         }
         
-        stage("Deploy") {          
-            when {
-                expression { params.DEPLOY }
-            }
+        stage("Deploy") {  
             steps {
+            script {
+                  if ((env.BRANCH_NAME =~ '^((?!release).)*$').matches()) {
               configFileProvider([configFile(fileId: 'edd7831a-3a6e-440e-9f60-1ef03a166602', variable: 'MAVEN_SETTINGS')]) {
                     bat "mvn -s $MAVEN_SETTINGS -B deploy"
               }
             }
+        }
+        }
         }
         
         stage("Release") {      
@@ -57,7 +55,7 @@ pipeline {
               }
               steps {
                 script {
-                  if (env.BRANCH_NAME ==~ /release\/.+/) {                    
+                  if ((env.BRANCH_NAME =~ '.*release.*').matches()) {                    
                     configFileProvider([configFile(fileId: 'edd7831a-3a6e-440e-9f60-1ef03a166602', variable: 'MAVEN_SETTINGS')]) {
                     bat "git checkout $env.BRANCH_NAME"
                     bat "mvn -s $MAVEN_SETTINGS -Djgitflow.pushRemote=true gitflow:release-finish"
