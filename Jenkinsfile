@@ -37,15 +37,16 @@ pipeline {
                 }
         }
         
-        stage("Deploy") {          
-            when {
-                expression { env.BRANCH_NAME !=~ /release\/.+/ }
-            }
+        stage("Deploy") {  
             steps {
+            script {
+                  if (env.BRANCH_NAME !=~ /release\/.+/) {
               configFileProvider([configFile(fileId: 'edd7831a-3a6e-440e-9f60-1ef03a166602', variable: 'MAVEN_SETTINGS')]) {
                     bat "mvn -s $MAVEN_SETTINGS -B deploy"
               }
             }
+        }
+        }
         }
         
         stage("Release") {      
