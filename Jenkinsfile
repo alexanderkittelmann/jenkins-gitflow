@@ -4,9 +4,17 @@ pipeline {
         maven 'maven'
         jdk 'JAVA8'
     }
+    
+    environment {
+        GITHUB     = credentials('56eee954-a690-492f-bf57-d333d1320db2')
+    }
+    
     parameters {
+        booleanParam(name: "DEPLOY",
+                description: "Deploy in Nexus.",
+                defaultValue: false);
         booleanParam(name: "RELEASE",
-                description: "Build a release from current commit.",
+                description: "Release Version.",
                 defaultValue: false)
     }
     stages {
@@ -35,16 +43,32 @@ pipeline {
                         }
                 }
         }
-        stage("Release") {
+        
+        stage("Deploy") {          
             when {
-                expression { params.RELEASE }
+                expression { params.DEPLOY }
             }
             steps {
-                ansiColor("xterm") {
-                    sh "mvn -B release:prepare"
-                    sh "mvn -B release:perform"
-                }
+              configFileProvider([configFile(fileId: 'edd7831a-3a6e-440e-9f60-1ef03a166602', variable: 'MAVEN_SETTINGS')]) {
+                    bat "mvn -s $MAVEN_SETTINGS -B deploy"
+              }
             }
         }
-    }
-}
+        
+        stage("Release") {      
+            when {
+                      expression { params.RELEASE }
+                 }
+              steps {
+                script {
+                  if (env.BRANCH_NAME ==~ /release\/.+/) {                    
+                    configFileProvider([configFile(fileId: 'edd7831a-3a6e-440e-9f60-1ef03a166602', variable: 'MAVEN_SETTINGS')]) {
+                    bat "mvn -s $MAVEN_SETTINGS -B -Djgitflow.username=$GITHUB_USR -Djgitflow.password=$GITHUB_PSW -Djgitflow.fetchRemote=true -Djgitflow.pushRemote=true gitflow:release-finish"
+                    bat "mvn -s $MAVEN_SETTINGS -B deploy"
+                    }
+                  }  
+               }
+            }
+        }
+   }
+ }
