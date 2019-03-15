@@ -4,9 +4,10 @@ pipeline {
         maven 'maven'
         jdk 'JAVA8'
     }
+    
     parameters {
-        booleanParam(name: "RELEASE",
-                description: "Build a release from current commit.",
+        booleanParam(name: "DEPLOY",
+                description: "Deploy in Nexus.",
                 defaultValue: false)
     }
     stages {
@@ -35,15 +36,15 @@ pipeline {
                         }
                 }
         }
-        stage("Release") {
+        
+        stage("Deploy") {          
             when {
-                expression { params.RELEASE }
+                expression { params.DEPLOY }
             }
             steps {
-                ansiColor("xterm") {
-                    sh "mvn -B release:prepare"
-                    sh "mvn -B release:perform"
-                }
+              configFileProvider([configFile(fileId: 'edd7831a-3a6e-440e-9f60-1ef03a166602', variable: 'MAVEN_SETTINGS')]) {
+                    bat "mvn -s $MAVEN_SETTINGS -B deploy"
+              }
             }
         }
     }
