@@ -51,12 +51,14 @@
 				<groupId>com.amashchenko.maven.plugin</groupId>
 				<artifactId>gitflow-maven-plugin</artifactId>
 				<version>1.11.0</version>
-				<configuration>
+				<configuration>				
+				<verbose>false</verbose>
 					<fetchRemote>${jgitflow.fetchRemote}</fetchRemote>
 					<pushRemote>${jgitflow.pushRemote}</pushRemote>
 					<skipTestProject>false</skipTestProject>
 					<allowSnapshots>false</allowSnapshots>
 					<digitsOnlyDevVersion>true</digitsOnlyDevVersion>
+					<keepBranch>true</keepBranch>
 					<gitFlowConfig>
 						<productionBranch>master</productionBranch>
 						<developmentBranch>develop</developmentBranch>
