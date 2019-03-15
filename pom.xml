@@ -33,7 +33,7 @@
 		<jgitflow.password />
 		<jgitflow.fetchRemote>false</jgitflow.fetchRemote>
 		<jgitflow.pushRemote>false</jgitflow.pushRemote>
-		<gitflow.origin>https://github.com/alexanderkittelmann/jenkins-gitflow.git</gitflow.origin>
+		<gitflow.origin>git@github.com:alexanderkittelmann/jenkins-gitflow.git</gitflow.origin>
 	</properties>
 
 	<dependencies>
@@ -58,7 +58,7 @@
 					<skipTestProject>false</skipTestProject>
 					<allowSnapshots>false</allowSnapshots>
 					<digitsOnlyDevVersion>true</digitsOnlyDevVersion>
-					<keepBranch>true</keepBranch>
+					<keepBranch>true</keepBranch>					
 					<gitFlowConfig>
 						<productionBranch>master</productionBranch>
 						<developmentBranch>develop</developmentBranch>
