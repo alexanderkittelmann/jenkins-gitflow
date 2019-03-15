@@ -13,7 +13,7 @@
 
 	<groupId>de.gedoplan.seminar</groupId>
 	<artifactId>CI_DEMO</artifactId>
-	<version>1.0.1</version>
+	<version>1.0.2</version>
 
 	<distributionManagement>
 		<repository>
@@ -56,7 +56,8 @@
 					<skipTestProject>false</skipTestProject>
 					<allowSnapshots>false</allowSnapshots>
 					<digitsOnlyDevVersion>true</digitsOnlyDevVersion>
-					<keepBranch>false</keepBranch>					
+					<keepBranch>false</keepBranch>
+					<versionDigitToIncrement>1</versionDigitToIncrement>		
 					<gitFlowConfig>
 						<productionBranch>master</productionBranch>
 						<developmentBranch>develop</developmentBranch>
