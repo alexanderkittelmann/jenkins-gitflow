@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<!-- Nicht von edumat abgeleitet, um Build auf CI-Server unabhängig von 
+		edumat zu machen -->
+	<!-- <parent> <groupId>de.gedoplan</groupId> <artifactId>build-master</artifactId> 
+		<version>2018.1.2</version> </parent> -->
+
+	<groupId>de.gedoplan.seminar</groupId>
+	<artifactId>CI_DEMO</artifactId>
+	<version>1.0.0-SNAPSHOT</version>
+
+	<distributionManagement>
+		<repository>
+			<id>releases</id>
+			<name>Releases</name>
+			<url>http://your.release.artifacts.repository.url</url>
+		</repository>
+		<snapshotRepository>
+			<id>snapshots</id>
+			<name>Snapshots</name>
+			<url>http://your.snapshot.artifacts.repository.url</url>
+		</snapshotRepository>
+	</distributionManagement>
+
+	<properties>
+
+		<!-- Code-Check-Konfiguration. Dies sind die Werte aus den Parent-Projekten. 
+			Sie können hier zum Ausprobieren anders gesetzt werden. -->
+		<!-- <code.check.config>GEDOPLAN</code.check.config> <checkstyle.config>${code.check.config}</checkstyle.config> 
+			<checkstyle.disabled>false</checkstyle.disabled> <checkstyle.config.location>checkstyle_${checkstyle.config}.xml</checkstyle.config.location> 
+			<findbugs.config>${code.check.config}</findbugs.config> <findbugs.disabled>false</findbugs.disabled> 
+			<findbugs.config.location>findbugs_${findbugs.config}.xml</findbugs.config.location> 
+			<jacoco.version>0.7.6.201602180812</jacoco.version> -->
+
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.11</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>external.atlassian.jgitflow</groupId>
+				<artifactId>jgitflow-maven-plugin</artifactId>
+				<version>1.0-m5.1</version>
+				<configuration>
+					<pushFeatures>true</pushFeatures>
+					<pushHotfixes>true</pushHotfixes>
+					<pushReleases>true</pushReleases>
+					<flowInitContext>
+						<masterBranchName>master</masterBranchName>
+						<developBranchName>develop</developBranchName>
+						<featureBranchPrefix>feature/</featureBranchPrefix>
+						<releaseBranchPrefix>release/</releaseBranchPrefix>
+						<hotfixBranchPrefix>hotfix/</hotfixBranchPrefix>
+					</flowInitContext>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>
