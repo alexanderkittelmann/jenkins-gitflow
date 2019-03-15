@@ -65,7 +65,7 @@ pipeline {
                     }
                     configFileProvider([configFile(fileId: 'edd7831a-3a6e-440e-9f60-1ef03a166602', variable: 'MAVEN_SETTINGS')]) {
                     bat "git checkout $env.BRANCH_NAME"
-                    bat "mvn -s $MAVEN_SETTINGS -B -Djgitflow.username=$GITHUB_USR -Djgitflow.password=$GITHUB_PSW -Djgitflow.fetchRemote=true -Djgitflow.pushRemote=true gitflow:release-finish"
+                    bat "mvn -s $MAVEN_SETTINGS -B -Djgitflow.fetchRemote=true -Djgitflow.pushRemote=true gitflow:release-finish"
                     bat "mvn -s $MAVEN_SETTINGS -B deploy"
                     }
                   }  
